@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مولدات العناوين البحثية</title>
+
+<style>
+
+body{
+    font-family:Tahoma;
+    background:#f4f6fb;
+    margin:0;
+    padding:0;
+}
+
+header{
+    background:linear-gradient(135deg,#3949ab,#5c6bc0);
+    color:white;
+    padding:20px;
+    text-align:center;
+    position:relative;
+}
+
+.language-box{
+    position:absolute;
+    top:20px;
+    right:20px;
+}
+
+select{
+    padding:8px;
+    border-radius:8px;
+    border:none;
+    font-size:14px;
+}
+
+.container{
+    width:90%;
+    max-width:900px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+.input-group{
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+    color:#333;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+
+button{
+    background:#3949ab;
+    color:white;
+    border:none;
+    padding:14px 20px;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:16px;
+    margin-top:10px;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#283593;
+}
+
+.title-card{
+    background:#eef2ff;
+    padding:15px;
+    border-radius:12px;
+    margin-top:12px;
+    cursor:pointer;
+    border-right:6px solid #3949ab;
+    transition:0.3s;
+}
+
+.title-card:hover{
+    background:#dce4ff;
+}
+
+.feedback{
+    margin-top:25px;
+    background:#fafafa;
+    padding:20px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    display:none;
+}
+
+.final-box{
+    margin-top:20px;
+    background:#e8f5e9;
+    padding:20px;
+    border-radius:12px;
+    border-right:6px solid #2e7d32;
+    display:none;
+}
+
+.saved-box{
+    margin-top:30px;
+    background:#fff8e1;
+    padding:20px;
+    border-radius:12px;
+    border-right:6px solid #f9a825;
+}
+
+.saved-item{
+    margin-bottom:12px;
+    padding:12px;
+    background:white;
+    border-radius:10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="language-box">
+<select id="languageSwitcher" onchange="changeLanguage()">
+<option value="ar">العربية</option>
+<option value="en">English</option>
+</select>
+</div>
+
+<h1 id="mainTitle">📚 مولدات العناوين البحثية</h1>
+<p id="subtitle">أداة ذكية تساعد الطالبة في بناء مشكلة بحثية قوية</p>
+
+</header>
+
+<div class="container">
+
+<div class="input-group">
+<label id="label1">🧠 المتغير المستقل</label>
+<input type="text" id="independent">
+</div>
+
+<div class="input-group">
+<label id="label2">📈 المتغير التابع</label>
+<input type="text" id="dependent">
+</div>
+
+<div class="input-group">
+<label id="label3">🌍 المجال أو المكان أو الحدود</label>
+<input type="text" id="field">
+</div>
+
+<button onclick="generateTitles()" id="generateBtn">
+✨ توليد العناوين
+</button>
+
+<div id="titlesContainer"></div>
+
+<div class="feedback" id="feedbackBox">
+<h3 id="feedbackTitle">💡 التغذية الراجعة</h3>
+<p id="feedbackText"></p>
+</div>
+
+<div class="final-box" id="finalBox">
+<h3 id="finalTitle">✅ المشكلة البحثية النهائية</h3>
+<p id="finalText"></p>
+
+<button onclick="saveResult()" id="saveBtn">
+💾 حفظ النتيجة
+</button>
+</div>
+
+<div class="saved-box">
+<h3 id="savedResultsTitle">📂 النتائج المحفوظة</h3>
+<div id="savedResults"></div>
+</div>
+
+</div>
+
+<script>
+
+let currentLanguage = "ar";
+let finalResearchProblem = "";
+
+function changeLanguage(){
+
+    currentLanguage =
+    document.getElementById("languageSwitcher").value;
+
+    if(currentLanguage === "ar"){
+
+        document.documentElement.lang = "ar";
+        document.documentElement.dir = "rtl";
+
+        document.getElementById("mainTitle").innerText =
+        "📚 مولدات العناوين البحثية";
+
+        document.getElementById("subtitle").innerText =
+        "أداة ذكية تساعد الطالبة في بناء مشكلة بحثية قوية";
+
+        document.getElementById("label1").innerText =
+        "🧠 المتغير المستقل";
+
+        document.getElementById("label2").innerText =
+        "📈 المتغير التابع";
+
+        document.getElementById("label3").innerText =
+        "🌍 المجال أو المكان أو الحدود";
+
+        document.getElementById("generateBtn").innerText =
+        "✨ توليد العناوين";
+
+        document.getElementById("feedbackTitle").innerText =
+        "💡 التغذية الراجعة";
+
+        document.getElementById("finalTitle").innerText =
+        "✅ المشكلة البحثية النهائية";
+
+        document.getElementById("saveBtn").innerText =
+        "💾 حفظ النتيجة";
+
+        document.getElementById("savedResultsTitle").innerText =
+        "📂 النتائج المحفوظة";
+
+    } else {
+
+        document.documentElement.lang = "en";
+        document.documentElement.dir = "ltr";
+
+        document.getElementById("mainTitle").innerText =
+        "📚 Research Title Generator";
+
+        document.getElementById("subtitle").innerText =
+        "Smart tool for building strong research problems";
+
+        document.getElementById("label1").innerText =
+        "🧠 Independent Variable";
+
+        document.getElementById("label2").innerText =
+        "📈 Dependent Variable";
+
+        document.getElementById("label3").innerText =
+        "🌍 Field / Place / Scope";
+
+        document.getElementById("generateBtn").innerText =
+        "✨ Generate Titles";
+
+        document.getElementById("feedbackTitle").innerText =
+        "💡 Feedback";
+
+        document.getElementById("finalTitle").innerText =
+        "✅ Final Research Problem";
+
+        document.getElementById("saveBtn").innerText =
+        "💾 Save Result";
+
+        document.getElementById("savedResultsTitle").innerText =
+        "📂 Saved Results";
+    }
+}
+
+function generateTitles(){
+
+    const independent =
+    document.getElementById("independent").value;
+
+    const dependent =
+    document.getElementById("dependent").value;
+
+    const field =
+    document.getElementById("field").value;
+
+    if(independent === "" ||
+       dependent === "" ||
+       field === ""){
+
+        alert(
+            currentLanguage === "ar"
+            ? "يرجى تعبئة جميع الحقول"
+            : "Please fill all fields"
+        );
+
+        return;
+    }
+
+    let titles = [];
+
+    if(currentLanguage === "ar"){
+
+        titles = [
+        `أثر ${independent} في ${dependent} ${field}`,
+        `فاعلية ${independent} في تحسين ${dependent} ${field}`,
+        `دور ${independent} في تعزيز ${dependent} ${field}`,
+        `العلاقة بين ${independent} و ${dependent} ${field}`,
+        `مدى إسهام ${independent} في تطوير ${dependent} ${field}`
+        ];
+
+    } else {
+
+        titles = [
+        `The Effect of ${independent} on ${dependent} ${field}`,
+        `The Role of ${independent} in Improving ${dependent} ${field}`,
+        `The Relationship Between ${independent} and ${dependent} ${field}`,
+        `The Impact of ${independent} on ${dependent} ${field}`,
+        `The Contribution of ${independent} to Developing ${dependent} ${field}`
+        ];
+    }
+
+    const container =
+    document.getElementById("titlesContainer");
+
+    container.innerHTML = "";
+
+    titles.forEach(title => {
+
+        const div = document.createElement("div");
+
+        div.className = "title-card";
+
+        div.innerText = title;
+
+        div.onclick = function(){
+            showFeedback(title);
+        };
+
+        container.appendChild(div);
+
+    });
+
+}
+
+function showFeedback(title){
+
+    const feedbackBox =
+    document.getElementById("feedbackBox");
+
+    const feedbackText =
+    document.getElementById("feedbackText");
+
+    const field =
+    document.getElementById("field").value;
+
+    if(currentLanguage === "ar"){
+
+        feedbackText.innerHTML = `
+        <strong>العنوان المختار:</strong><br><br>
+        ${title}
+        <br><br>
+        ✔ العنوان واضح ويحتوي على متغيرات دقيقة.
+        <br>
+        ✔ يمكن تعميق الفكرة بإضافة مهارات التفكير الناقد أو الابتكار.
+        <br>
+        ✔ الفكرة قابلة للبحث والقياس أكاديميًا.
+        `;
+
+        finalResearchProblem =
+        `تتمثل المشكلة البحثية في دراسة أثر ${document.getElementById("independent").value}
+        في ${document.getElementById("dependent").value}
+        ${field}
+        بهدف الوصول إلى نتائج تدعم الإبداع والابتكار وتحسين جودة المخرجات البحثية.`;
+
+    } else {
+
+        feedbackText.innerHTML = `
+        <strong>Selected Title:</strong><br><br>
+        ${title}
+        <br><br>
+        ✔ The title contains clear research variables.
+        <br>
+        ✔ The idea can be deepened by adding innovation or critical thinking dimensions.
+        <br>
+        ✔ The topic is measurable and academically strong.
+        `;
+
+        finalResearchProblem =
+        `The research problem focuses on studying the effect of
+        ${document.getElementById("independent").value}
+        on
+        ${document.getElementById("dependent").value}
+        ${field}
+        to support creativity, innovation, and improve research outcomes.`;
+    }
+
+    feedbackBox.style.display = "block";
+
+    document.getElementById("finalBox").style.display = "block";
+
+    document.getElementById("finalText").innerText =
+    finalResearchProblem;
+}
+
+function saveResult(){
+
+    const savedResults =
+    document.getElementById("savedResults");
+
+    const div =
+    document.createElement("div");
+
+    div.className = "saved-item";
+
+    div.innerText = finalResearchProblem;
+
+    savedResults.appendChild(div);
+
+    alert(
+        currentLanguage === "ar"
+        ? "تم حفظ النتيجة بنجاح"
+        : "Result saved successfully"
+    );
+}
+
+</script>
+
+</body>
+</html>
